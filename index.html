@@ -12,7 +12,28 @@
             const actions = ["Rock", "Paper", "Scissors"];
             return actions[Math.floor(Math.random()*actions.length)];
         }
-        
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            playerSelection = capitalize(playerSelection);
+            computerSelection = capitalize(computerSelection);
+
+            let result = "It's a tie, " + playerSelection + " ties with " + computerSelection;
+
+            if (playerSelection == "Rock" && computerSelection == "Paper" || 
+                playerSelection == "Paper" && computerSelection == "Scissors" ||
+                playerSelection == "Scissors" && computerSelection == "Rock") {
+                    result = "You Lose!" + computerSelection + " beats " + playerSelection;
+            } else if (playerSelection == "Rock" && computerSelection == "Scissors" || 
+                playerSelection == "Paper" && computerSelection == "Rock" ||
+                playerSelection == "Scissors" && computerSelection == "Paper") {
+                    result = "You Win!" + playerSelection + " beats " + computerSelection;
+            }
+            return result;
+        }
     </script>
 </body>
 </html>
