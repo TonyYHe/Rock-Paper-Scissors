@@ -3,53 +3,94 @@ function getComputerChoice() {
     return actions[Math.floor(Math.random()*actions.length)];
 }
 
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
-}
-
 function playRound(playerSelection, computerSelection) {
-    playerSelection = capitalize(playerSelection);
-    computerSelection = capitalize(computerSelection);
+    playerSelection = playerSelection;
+    computerSelection = computerSelection;
 
     let result = "It's a tie, " + playerSelection + " ties with " + computerSelection;
 
     if (playerSelection == "Rock" && computerSelection == "Paper" || 
         playerSelection == "Paper" && computerSelection == "Scissors" ||
         playerSelection == "Scissors" && computerSelection == "Rock") {
-            result = "You Lose!" + computerSelection + " beats " + playerSelection;
+            result = "You Lose! " + computerSelection + " beats " + playerSelection;
     } else if (playerSelection == "Rock" && computerSelection == "Scissors" || 
         playerSelection == "Paper" && computerSelection == "Rock" ||
         playerSelection == "Scissors" && computerSelection == "Paper") {
-            result = "You Win!" + playerSelection + " beats " + computerSelection;
+            result = "You Win! " + playerSelection + " beats " + computerSelection;
     }
     return result;
 }
 
-function readPlayerSelection() {
-    let selection = capitalize(prompt("Enter Rock, Paper or Scissors: "));
-    while (selection != "Rock" && selection != "Paper" && selection != "Scissors") {
-        selection = capitalize(prompt("Please enter a valid input: "));
-    }
-    return selection;
+const buttons = document.querySelectorAll('button');
+for (let btn of buttons) {
+    btn.addEventListener('click', function() {
+        roundResult = playRound(btn.innerHTML, getComputerChoice());
+        if (!playAgainShown) {
+            updateGame(roundResult);
+        }
+    })
 }
 
-function game() {
-    let playerScore = computerScore = 0;
-    let playerSelection, computerSelection;
-    let roundResult;
+let playerScore = computerScore = 0;
+let playAgainShown = false;
 
-    for (let i = 0; i < 5; i++) {
-        playerSelection = readPlayerSelection();
-        computerSelection = getComputerChoice();
-        roundResult = playRound(playerSelection, computerSelection);
-        playerScore += roundResult.includes("Win");
-        computerScore += roundResult.includes("Lose");
+const body = document.querySelector('body');
+
+const result = document.createElement('div');
+result.textContent = "First to score 5 points wins the game";
+body.appendChild(result);
+
+const playerScoreBoard = document.createElement('div');
+playerScoreBoard.textContent = "Player: " + playerScore;
+body.appendChild(playerScoreBoard);
+
+const computerScoreBoard= document.createElement('div');
+computerScoreBoard.textContent = "Computer: " + computerScore;
+body.appendChild(computerScoreBoard);
+
+function updateGame(roundResult) {
+    result.textContent = roundResult;
+    playerScore += roundResult.includes("Win");
+    computerScore += roundResult.includes("Lose");
+    playerScoreBoard.textContent = "Player: " + playerScore;
+    computerScoreBoard.textContent = "Computer: " + computerScore;
+    announceWinner();
+}
+
+function announceWinner() {
+    let foundWinner = false;
+
+    if (playerScore >= 5) {
+        result.textContent = "Player Wins!";
+        foundWinner = true;
     }
 
-    if (playerScore > computerScore) {
-        return "Player Wins!";
-    } else if (computerScore > playerScore) {
-        return "Computer Wins!";
-    } 
-    return "It's a tie!";
+    if (computerScore >= 5) {
+        result.textContent = "Computer Wins!";
+        foundWinner = true;
+    }
+
+    if (foundWinner) {
+        playAgain();
+    }
+}
+
+function playAgain() {
+    if (!playAgainShown) {
+        const playAgain = document.createElement('button');
+        playAgain.setAttribute("id", "Play-Again");
+        playAgain.textContent = "Play Again";
+        playAgain.addEventListener('click', resetGame);
+        body.appendChild(playAgain);
+        playAgainShown = true;
+    }
+}
+
+function resetGame() {
+    playerScore = computerScore = 0;
+    playerScoreBoard.textContent = "Player: 0";
+    computerScoreBoard.textContent = "Computer: 0";
+    playAgainShown = false;
+    let playAgainButton = document.getElementById('Play-Again');
+    playAgainButton.remove();
 }
