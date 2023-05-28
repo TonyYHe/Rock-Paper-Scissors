@@ -24,7 +24,7 @@ function playRound(playerSelection, computerSelection) {
 const buttons = document.querySelectorAll('button');
 for (let btn of buttons) {
     btn.addEventListener('click', function() {
-        roundResult = playRound(btn.innerHTML, getComputerChoice());
+        roundResult = playRound(btn.id, getComputerChoice());
         if (!playAgainShown) {
             updateGame(roundResult);
         }
@@ -35,18 +35,31 @@ let playerScore = computerScore = 0;
 let playAgainShown = false;
 
 const body = document.querySelector('body');
+const scoreBoard = document.getElementById('scoreboard');
 
 const result = document.createElement('div');
-result.textContent = "First to score 5 points wins the game";
-body.appendChild(result);
+result.textContent = "";
+result.setAttribute('style', 
+'text-align: center;' + 
+'min-height: 50px;' + 
+'font-family: "Comic Sans MS", "Comic Sans", cursive;' +
+'font-size: 30px;' +
+'padding: 15px;' +
+'vertical-align: middle;' + 
+'display: flex;' + 
+'align-items: center;'
+);
+body.insertBefore(result, scoreBoard);
 
 const playerScoreBoard = document.createElement('div');
 playerScoreBoard.textContent = "Player: " + playerScore;
-body.appendChild(playerScoreBoard);
+playerScoreBoard.setAttribute('style', 'text-align: center');
+scoreBoard.appendChild(playerScoreBoard);
 
 const computerScoreBoard= document.createElement('div');
 computerScoreBoard.textContent = "Computer: " + computerScore;
-body.appendChild(computerScoreBoard);
+computerScoreBoard.setAttribute('style', 'text-align: center');
+scoreBoard.appendChild(computerScoreBoard);
 
 function updateGame(roundResult) {
     result.textContent = roundResult;
@@ -79,9 +92,19 @@ function playAgain() {
     if (!playAgainShown) {
         const playAgain = document.createElement('button');
         playAgain.setAttribute("id", "Play-Again");
-        playAgain.textContent = "Play Again";
+        playAgain.setAttribute('style', 
+        'display: flex;' + 
+        'background-image: url(images/playAgainButton.png);' +
+        'width: 165px;' + 
+        'height: 70px;' +
+        'background-size: cover;' + 
+        'border-radius: 15px;' +
+        'text-align: center;' + 
+        'margin-bottom: 30px;' +
+        'padding: 0px;'
+        );
         playAgain.addEventListener('click', resetGame);
-        body.appendChild(playAgain);
+        body.insertBefore(playAgain, body.lastElementChild);
         playAgainShown = true;
     }
 }

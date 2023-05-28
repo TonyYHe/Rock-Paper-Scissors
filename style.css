@@ -1,0 +1,76 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: blanchedalmond;
+    align-items: center;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+#title {
+    font-size: 30px;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+#target {
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    background-color: grey;
+    margin: 0px 430px;
+    border-radius: 20px;
+    flex-wrap: wrap;
+}
+
+button {
+    width: 150px;
+    height: 150px;
+    border-radius: 27px;
+}
+
+#Rock,
+#Paper,
+#Scissors {
+    background-size: cover;
+}
+
+#Rock {
+    background-image: url(images/Rock.png);
+}
+
+#Paper {
+    background-image: url(images/Paper.png);
+}
+
+#Scissors {
+    background-image: url(images/Scissors.png);
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+#scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 10px;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 40px;
+}
+
+#footer {
+    text-align: center;
+    margin-top: auto;
+}
+
